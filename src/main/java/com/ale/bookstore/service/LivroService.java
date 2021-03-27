@@ -40,10 +40,14 @@ public class LivroService {
 
 	public Livro update(Integer id, LivrosDTO objDto) {
 		Livro obj = findById(id);
+		updateData(obj, objDto);
+		return repository.save(obj);
+	}
+
+	private void updateData(Livro obj, LivrosDTO objDto) {
 		obj.setTitulo(objDto.getTitulo());
 		obj.setNome_autor(objDto.getNome_autor());
 		obj.setTexto(objDto.getTexto());
-		return repository.save(obj);
 	}
 
 	public void delete(Integer id) {
