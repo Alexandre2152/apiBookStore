@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.ale.bookstore.domain.Categoria;
 import com.ale.bookstore.domain.Livro;
 import com.ale.bookstore.dtos.LivrosDTO;
 import com.ale.bookstore.repository.CategoriaRepository;
@@ -18,9 +19,9 @@ public class LivroService {
 
 	@Autowired
 	private LivroRespository repository;
-	
+
 	@Autowired
-	private CategoriaRepository categoriaService;
+	private CategoriaService categoriaService;
 
 	public Livro findById(Integer id) {
 		Optional<Livro> obj = repository.findById(id);
@@ -33,8 +34,10 @@ public class LivroService {
 		return repository.findAllByCategoria(id_cat);
 	}
 
-	public Livro create(Livro obj) {
+	public Livro create(Integer id_cat, Livro obj) {
 		obj.setId(null);
+		Categoria cat = categoriaService.findById(id_cat);
+		obj.setCategoria(cat);
 		return repository.save(obj);
 	}
 
@@ -55,7 +58,8 @@ public class LivroService {
 		try {
 			repository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new com.ale.bookstore.service.exceptions.DataIntegrityViolationException("Livro não pode ser deletado! Possui objetos associados");
+			throw new com.ale.bookstore.service.exceptions.DataIntegrityViolationException(
+					"Livro não pode ser deletado! Possui objetos associados");
 		}
 	}
 }
