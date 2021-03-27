@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ale.bookstore.domain.Livro;
 import com.ale.bookstore.dtos.LivrosDTO;
+import com.ale.bookstore.repository.CategoriaRepository;
 import com.ale.bookstore.repository.LivroRespository;
 import com.ale.bookstore.service.exceptions.ObjectNotFoundException;
 
@@ -17,6 +18,9 @@ public class LivroService {
 
 	@Autowired
 	private LivroRespository repository;
+	
+	@Autowired
+	private CategoriaRepository categoriaService;
 
 	public Livro findById(Integer id) {
 		Optional<Livro> obj = repository.findById(id);
@@ -24,8 +28,9 @@ public class LivroService {
 				"Objeto não encontrado! id: " + id + ", tipo: " + Livro.class.getName()));
 	}
 
-	public List<Livro> findAll() {
-		return repository.findAll();
+	public List<Livro> findAll(Integer id_cat) {
+		categoriaService.findById(id_cat);
+		return repository.findAllByCategoria(id_cat);
 	}
 
 	public Livro create(Livro obj) {
