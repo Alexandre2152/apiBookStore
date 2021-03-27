@@ -16,47 +16,47 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.ale.bookstore.domain.Categoria;
-import com.ale.bookstore.dtos.CategoriaDTO;
-import com.ale.bookstore.service.CategoriaService;
+import com.ale.bookstore.domain.Livro;
+import com.ale.bookstore.dtos.LivrosDTO;
+import com.ale.bookstore.service.LivroService;
 
 @RestController
-@RequestMapping(value = "/categoria")
-public class CategoriaResource {
-
+@RequestMapping(value = "/livro")
+public class LivroResource {
+	
 	@Autowired
-	private CategoriaService service;
-
+	private LivroService services;
+	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Categoria> findById(@PathVariable Integer id) {
-		Categoria obj = service.findById(id);
+	public ResponseEntity<Livro> findById(@PathVariable Integer id){
+		Livro obj = services.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
 	@GetMapping
-	public ResponseEntity<List<CategoriaDTO>> findAll() {
-		List<Categoria> list = service.findAll();
-		List<CategoriaDTO> listDtos = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+	public ResponseEntity<List<LivrosDTO>> findAll(){
+		List<Livro> list = services.findAll();
+		List<LivrosDTO> listDtos = list.stream().map(obj -> new LivrosDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDtos);
 	}
-
+	
 	@PostMapping
-	public ResponseEntity<Categoria> create(@RequestBody Categoria obj) {
-		obj = service.create(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+	public ResponseEntity<Livro> create(@RequestBody Livro obj){
+		obj= services.create(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{/id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-
+	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoriaDTO> update(@PathVariable Integer id, @RequestBody CategoriaDTO objDto) {
-		Categoria newObj = service.update(id, objDto);
-		return ResponseEntity.ok().body(new CategoriaDTO(newObj));
+	public ResponseEntity<LivrosDTO> update(@PathVariable Integer id, @RequestBody LivrosDTO objDto){
+		Livro newObj = services.update(id, objDto);
+		return ResponseEntity.ok().body(new LivrosDTO(newObj));
 	}
-
+	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Integer id) {
-		service.delete(id);
+	public ResponseEntity<Void> delete(@PathVariable Integer id){
+		services.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-
+	
 }
