@@ -2,6 +2,10 @@ package com.ale.bookstore.dtos;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.ale.bookstore.domain.Livro;
 
 public class LivrosDTO implements Serializable{
@@ -9,8 +13,17 @@ public class LivrosDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
+	
+	@NotEmpty(message = "Campo TITULO é requerido!")
+	@Length(min = 3, max = 50, message = "O campo TITULO deve ter entre 3 e 50 caracteres!")
 	private String titulo;
+	
+	@NotEmpty(message = "Campo NOE DO AUTOR é requereido!")
+	@Length(min = 5, max = 50, message = "O campo NOME DO AUTOR deve ter entre 3 e 50 caracteres!")
 	private String nome_autor;
+	
+	@NotEmpty(message = "Campo TEXTo é requerido!")
+	@Length(min = 10, max = 2000000, message = "O campo TEXTO deve ter ente 10 e 2000000 caracteres!")
 	private String texto;
 	public LivrosDTO() {
 		super();

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.ale.bookstore.domain.Categoria;
 import com.ale.bookstore.domain.Livro;
 import com.ale.bookstore.dtos.LivrosDTO;
-import com.ale.bookstore.repository.CategoriaRepository;
 import com.ale.bookstore.repository.LivroRespository;
 import com.ale.bookstore.service.exceptions.ObjectNotFoundException;
 
