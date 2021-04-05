@@ -13,6 +13,8 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Categoria implements Serializable {
 
@@ -31,6 +33,7 @@ public class Categoria implements Serializable {
 	private String descricao;
 
 	@OneToMany(mappedBy = "categoria")
+	@JsonIgnore
 	private List<Livro> livros = new ArrayList<>();
 
 	public Categoria() {
